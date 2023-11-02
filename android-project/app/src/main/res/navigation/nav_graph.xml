@@ -3,26 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/HomeFragment">
+        <fragment
+            android:id="@+id/HomeFragment"
+            android:name="com.tasty.recipesapp.ui.home.HomeFragment"
+            android:label="Home Fragment"
+            tools:layout="@layout/fragment_home"
+            >
 
-    <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.tasty.recipesapp.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+            <action android:id="@+id/home_to_recipes"
+                app:destination="@id/RecipeFragment"
+                />
 
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.tasty.recipesapp.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        </fragment>
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+        <fragment
+            android:id="@+id/RecipeFragment"
+            android:name="com.tasty.recipesapp.ui.recipe.RecipeFragment"
+            android:label="Recipe Fragment"
+            tools:layout="@layout/fragment_recipe"
+            ></fragment>
+
+        <fragment
+            android:id="@+id/RecipeDetailFragment"
+            android:name="com.tasty.recipesapp.ui.recipe.RecipeDetailFragment"
+            android:label="Recipe Detail Fragment"
+            tools:layout="@layout/fragment_recipe_detail"
+            ></fragment>
+
+        <fragment
+            android:id="@+id/ProfileFragment"
+            android:name="com.tasty.recipesapp.ui.profile.ProfileFragment"
+            android:label="Profile Fragment"
+            tools:layout="@layout/fragment_profile"
+            ></fragment>
+
 </navigation>
