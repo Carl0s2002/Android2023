@@ -1,12 +1,19 @@
-package com.tasty.recipesapp
+package com.tasty.recipesapp.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.id
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.navigation.NavigationBarView
+import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.ActivityMainBinding
-import com.tasty.recipesapp.databinding.ActivitySplashBinding
-import com.tasty.recipesapp.recipe.RecipeListViewModel
+import com.tasty.recipesapp.databinding.FragmentHomeBinding
+import com.tasty.recipesapp.ui.home.HomeFragment
+import com.tasty.recipesapp.ui.profile.ProfileFragment
+import com.tasty.recipesapp.ui.recipe.RecipeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +32,18 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        replaceFragment(HomeFragment()) ;
+
+        binding.bottomNavigation.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
+            val menuItemId = item.itemId
+            when(item.itemId) {
+                R.id.home_fragment -> replaceFragment(HomeFragment())
+                R.id.recipe_fragment -> replaceFragment(RecipeFragment())
+                R.id.profile_fragment -> replaceFragment(ProfileFragment())
+            }
+            true
+        })
+
     }
     override fun onStart(){
         super.onStart() ;
@@ -49,5 +68,12 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy MainActivity destroyed");
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.replace(binding.container.id, fragment)
+        transaction.commit()
     }
 }
