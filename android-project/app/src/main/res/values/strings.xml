@@ -45,4 +45,8 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome</string>
+    <string name="to_the_recipehub">to the RecipeHub</string>
+    <string name="where_you_can_find_the_best_recipes_and_tips_to_enjoy_a_culinary_experience">Where you can find the best recipes and tips to enjoy a culinary experience</string>
+    <string name="get_started">Get Started</string>
 </resources>

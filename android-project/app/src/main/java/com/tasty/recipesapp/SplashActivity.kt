@@ -2,6 +2,7 @@ package com.tasty.recipesapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.HandlerThread
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -10,27 +11,41 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.tasty.recipesapp.databinding.ActivitySplashBinding
+import java.util.logging.Handler
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivitySplashBinding
     companion object{
-        private val TAG = SplashActivity::class.java.simpleName ;
+        private val TAG = SplashActivity::class.java.simpleName
+        private const val SPLASH_TIME_OUT:Long = 2000
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        binding = ActivitySplashBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//        Log.d(TAG , "onCreate: SplashActivity")
+//        val textInput = binding.textInput
+//        binding.buttonNavigate.setOnClickListener {
+//            val intent = Intent(this@SplashActivity,MainActivity::class.java)
+//            intent.putExtra("name" , textInput.text.toString())
+//            startActivity(intent)
+//        }
         binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        Log.d(TAG , "onCreate: SplashActivity") ;
-        val textInput = binding.textInput ;
-        binding.buttonNavigate.setOnClickListener {
-            val intent = Intent(this@SplashActivity,MainActivity::class.java) ;
-            intent.putExtra("name" , textInput.text.toString()) ;
-            startActivity(intent) ;
-        }
+        setContentView(binding.root) ;
+
+        val handlerThread = HandlerThread("SplashHandleThread" , -10) ;
+        handlerThread.start() ;
+        val handler = android.os.Handler(handlerThread.looper)
+        handler.postDelayed({
+            val intent = Intent(this@SplashActivity , MainActivity::class.java)
+            startActivity(intent)
+            finish()
+         } , SPLASH_TIME_OUT )
+
 
         }
     override fun onStart(){
