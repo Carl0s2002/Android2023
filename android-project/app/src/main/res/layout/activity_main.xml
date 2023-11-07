@@ -8,6 +8,13 @@
         android:layout_height="match_parent"
         android:background="#F3EEEE"
         tools:context=".activities.MainActivity">
+    <fragment
+        android:id="@+id/nav_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph"
+        />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

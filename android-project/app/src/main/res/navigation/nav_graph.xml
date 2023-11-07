@@ -50,6 +50,10 @@
             android:label="Recipe Detail Fragment"
             tools:layout="@layout/fragment_recipe_detail"
             >
+                <action
+                    android:id="@+id/recipe_detail_fragment_to_recipe"
+                    app:destination="@id/recipe_fragment"
+                        />
         </fragment>
 
         <fragment

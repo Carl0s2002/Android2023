@@ -7,6 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.ActivityMainBinding
@@ -18,6 +23,7 @@ import com.tasty.recipesapp.ui.recipe.RecipeFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController:NavController
     companion object{
         private val TAG = MainActivity::class.java.simpleName ;
     }
@@ -32,17 +38,22 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(HomeFragment()) ;
+//        replaceFragment(HomeFragment()) ;
 
-        binding.bottomNavigation.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
-            val menuItemId = item.itemId
-            when(item.itemId) {
-                R.id.home_fragment -> replaceFragment(HomeFragment())
-                R.id.recipe_fragment -> replaceFragment(RecipeFragment())
-                R.id.profile_fragment -> replaceFragment(ProfileFragment())
-            }
-            true
-        })
+//        binding.bottomNavigation.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
+//            val menuItemId = item.itemId
+//            when(item.itemId) {
+//                R.id.home_fragment -> replaceFragment(HomeFragment())
+//                R.id.recipe_fragment -> replaceFragment(RecipeFragment())
+//                R.id.profile_fragment -> replaceFragment(ProfileFragment())
+//            }
+//            true
+//        })
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
+        navController = navHostFragment.navController
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        setupWithNavController(bottomNavigationView , navController)
 
     }
     override fun onStart(){
