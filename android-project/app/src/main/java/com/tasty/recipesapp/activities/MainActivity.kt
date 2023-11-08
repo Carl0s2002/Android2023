@@ -54,7 +54,18 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         setupWithNavController(bottomNavigationView , navController)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.home_fragment -> navController.navigate(R.id.home_fragment)
+                R.id.recipe_fragment -> navController.navigate(R.id.recipe_fragment)
+                R.id.profile_fragment -> navController.navigate(R.id.profile_fragment)
+                else -> {
+                    navController.navigate(R.id.home_fragment)
+                }
+            }
+            true
 
+        }
     }
     override fun onStart(){
         super.onStart() ;
