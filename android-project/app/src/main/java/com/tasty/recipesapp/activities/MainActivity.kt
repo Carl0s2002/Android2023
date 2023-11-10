@@ -16,6 +16,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.ActivityMainBinding
 import com.tasty.recipesapp.databinding.FragmentHomeBinding
+import com.tasty.recipesapp.repo.RecipeRepository
 import com.tasty.recipesapp.ui.home.HomeFragment
 import com.tasty.recipesapp.ui.profile.ProfileFragment
 import com.tasty.recipesapp.ui.recipe.RecipeFragment
@@ -65,6 +66,10 @@ class MainActivity : AppCompatActivity() {
             }
             true
 
+        }
+        val recipes = RecipeRepository(this).readRecipes()
+        recipes.forEach {
+            Log.d(TAG , "recipe: $it")
         }
     }
     override fun onStart(){
