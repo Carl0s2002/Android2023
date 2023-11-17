@@ -1,25 +1,19 @@
 package com.tasty.recipesapp.activities
 
-import android.R.id
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.ActivityMainBinding
-import com.tasty.recipesapp.databinding.FragmentHomeBinding
-import com.tasty.recipesapp.repo.RecipeRepository
-import com.tasty.recipesapp.ui.home.HomeFragment
-import com.tasty.recipesapp.ui.profile.ProfileFragment
-import com.tasty.recipesapp.ui.recipe.RecipeFragment
+import com.tasty.recipesapp.viewModel.RecipeListViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,10 +61,19 @@ class MainActivity : AppCompatActivity() {
             true
 
         }
-        val recipes = RecipeRepository(this).readRecipes()
-        recipes.forEach {
-            Log.d(TAG , "recipe: $it")
+//        val recipes = RecipeRepository(this).readRecipes()
+//        recipes.forEach {
+//            Log.d(TAG , "recipe: $it")
+//        }
+
+        val viewModel: RecipeListViewModel by viewModels()
+        val liveData = viewModel.liveData
+        liveData.observe(this) {
+            it.forEach {
+                Log.d(TAG , it.toString() )
+            }
         }
+        viewModel.readAllRecipes(this)
     }
     override fun onStart(){
         super.onStart() ;
