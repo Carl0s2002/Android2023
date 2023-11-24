@@ -11,6 +11,7 @@ import com.tasty.recipesapp.model.RecipeModel
 
 class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
+    private var onClickListener: View.OnClickListener? = null
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val title: TextView
 
@@ -29,7 +30,17 @@ class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<Re
         holder.title.text = recipes[position].title
     }
 
+
     override fun getItemCount(): Int {
         return recipes.size
     }
+
+    fun setOnClickListener(listener: View.OnClickListener) {
+        onClickListener = listener
+    }
+
+    interface OnClickListener {
+        fun onClick(position: Int , model: RecipeModel)
+    }
+
 }

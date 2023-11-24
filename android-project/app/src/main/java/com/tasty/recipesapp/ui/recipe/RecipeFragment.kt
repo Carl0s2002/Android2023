@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tasty.recipesapp.R
 import com.tasty.recipesapp.data.dtos.RecipeDTO
 import com.tasty.recipesapp.databinding.FragmentRecipeBinding
 import com.tasty.recipesapp.model.RecipeModel
@@ -48,8 +49,13 @@ class RecipeFragment : Fragment() {
                 Log.d("RecipeFragment" , it.toString())
             }
         }
-
         viewModel.readAllRecipes(requireContext())
+
+        myAdapter.setOnClickListener(
+            View.OnClickListener {
+                navController.navigate(R.id.recipe_to_all_recipe_details)
+            }
+        )
 
         return binding.root
     }
