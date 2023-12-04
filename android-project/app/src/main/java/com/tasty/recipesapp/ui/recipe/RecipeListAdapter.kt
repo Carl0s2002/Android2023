@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.data.dtos.RecipeDTO
@@ -11,7 +12,7 @@ import com.tasty.recipesapp.model.RecipeModel
 
 class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
-    private var onClickListener: View.OnClickListener? = null
+    var onClickListener: ((RecipeModel) -> Unit)? = null
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val title: TextView
 
@@ -28,19 +29,15 @@ class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<Re
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = recipes[position].title
-    }
 
+        holder.itemView.setOnClickListener{
+                onClickListener?.invoke(recipes[position])
+        }
+
+    }
 
     override fun getItemCount(): Int {
         return recipes.size
-    }
-
-    fun setOnClickListener(listener: View.OnClickListener) {
-        onClickListener = listener
-    }
-
-    interface OnClickListener {
-        fun onClick(position: Int , model: RecipeModel)
     }
 
 }

@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.R
@@ -29,7 +31,9 @@ class RecipeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecipeBinding.inflate(inflater , container , false)
-        val navController = findNavController()
+        val navHostFragment = requireActivity().supportFragmentManager
+            .findFragmentById(R.id.nav_container) as NavHostFragment
+        val navController = navHostFragment.navController
 //        binding.buttonToRecipeDetails.setOnClickListener {
 //            navController.navigate(R.id.recipe_to_all_recipe_details)
 //        }
@@ -51,11 +55,9 @@ class RecipeFragment : Fragment() {
         }
         viewModel.readAllRecipes(requireContext())
 
-        myAdapter.setOnClickListener(
-            View.OnClickListener {
-                navController.navigate(R.id.recipe_to_all_recipe_details)
-            }
-        )
+        myAdapter.onClickListener = {
+            navController.navigate(R.id.recipe_to_all_recipe_details , bundleOf("recipe" to it))
+        }
 
         return binding.root
     }
