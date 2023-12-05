@@ -5,56 +5,53 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.databinding.FragmentProfileBinding
+import com.tasty.recipesapp.model.RecipeModel
+import com.tasty.recipesapp.ui.recipe.RecipeListAdapter
+import com.tasty.recipesapp.viewModel.RecipeListViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private lateinit var binding: FragmentProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        val binding = FragmentProfileBinding.inflate(inflater , container , false)
+        val navHostFragment = requireActivity().supportFragmentManager
+            .findFragmentById(R.id.nav_container) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val recipes = emptyArray<RecipeModel>()
+        val myAdapter = RecipeListAdapter(recipes)
+        binding.recycleRandomRecipes.layoutManager = LinearLayoutManager(requireContext())
+        binding.recycleRandomRecipes.adapter = myAdapter
+
+        val viewModel: RecipeListViewModel by viewModels()
+
+        val liveData = viewModel.liveData
+        liveData.observe(viewLifecycleOwner) {recipes ->
+            val randomRecipes = recipes.toList().shuffled().take(3) // Shuffle and take 3 random recipes
+            myAdapter.recipes = randomRecipes.toTypedArray()
+            myAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.readAllRecipes(requireContext())
+
+        myAdapter.onClickListener = {
+            navController.navigate(R.id.profile_to_recipe_details , bundleOf("recipe" to it))
+        }
+
+        return binding.root
     }
 }

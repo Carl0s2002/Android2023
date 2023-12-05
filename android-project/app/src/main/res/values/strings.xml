@@ -54,4 +54,5 @@
     <string name="profile">Profile</string>
     <string name="details">Details</string>
     <string name="recipe_details">Recipe details</string>
+    <string name="recipeimage">RecipeImage</string>
 </resources>

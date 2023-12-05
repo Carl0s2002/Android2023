@@ -21,7 +21,7 @@ class RecipeListViewModel: ViewModel() {
                 val instructionModel = it.instructions.map {
                     InstructionModel(it.display_text , it.position)
                 }
-                RecipeModel(it.name , it.original_video_url, instructionModel.toTypedArray())
+                RecipeModel(it.name , it.original_video_url, it.thumbnail_url , instructionModel.toTypedArray())
             }
             liveData.value = models.toTypedArray()
         }

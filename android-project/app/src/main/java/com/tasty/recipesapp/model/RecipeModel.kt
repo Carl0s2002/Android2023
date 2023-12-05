@@ -6,9 +6,10 @@ import android.os.Parcelable
 data class RecipeModel(
     val title: String? ,
     val video: String? ,
+    val thumbnail: String? ,
     val instructions: Array<InstructionModel>
 ):Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readString() , parcel.readString() , parcel.readArray(RecipeModel::class.java.classLoader) as Array<InstructionModel> ) {
+    constructor(parcel: Parcel) : this(parcel.readString() , parcel.readString() , parcel.readString() , parcel.readArray(RecipeModel::class.java.classLoader) as Array<InstructionModel> ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

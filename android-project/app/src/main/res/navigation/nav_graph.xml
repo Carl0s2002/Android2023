@@ -66,6 +66,9 @@
 <!--                        app:destination="@id/home_fragment" />-->
 <!--                <action android:id="@+id/profile_to_recipe"-->
 <!--                    app:destination="@id/recipe_fragment" />-->
+                <action
+                    android:id="@+id/profile_to_recipe_details"
+                    app:destination="@id/recipe_detail_fragment" />
         </fragment>
 
 </navigation>

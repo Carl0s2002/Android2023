@@ -2,8 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_border">
+    android:background="@drawable/custom_border"
+    android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/thumbnailImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/recipeimage" />
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/thumbnailImage"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        />-->
     <TextView
         android:id="@+id/title"
         android:layout_height="wrap_content"
