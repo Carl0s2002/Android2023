@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.R
-import com.tasty.recipesapp.data.dtos.RecipeDTO
 import com.tasty.recipesapp.databinding.FragmentRecipeBinding
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewModel.RecipeListViewModel
@@ -34,9 +32,6 @@ class RecipeFragment : Fragment() {
         val navHostFragment = requireActivity().supportFragmentManager
             .findFragmentById(R.id.nav_container) as NavHostFragment
         val navController = navHostFragment.navController
-//        binding.buttonToRecipeDetails.setOnClickListener {
-//            navController.navigate(R.id.recipe_to_all_recipe_details)
-//        }
 
         val recipes: Array<RecipeModel> = emptyArray()
         val myAdapter = RecipeListAdapter(recipes)
