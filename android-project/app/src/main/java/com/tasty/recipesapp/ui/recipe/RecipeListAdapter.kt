@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.model.RecipeModel
 
@@ -31,7 +32,9 @@ class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<Re
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = recipes[position].title
-        holder.thumbnailImage.setImageURI(Uri.parse(recipes[position].thumbnail))
+        Glide.with(holder.itemView)
+            .load(recipes[position].thumbnail)
+            .into(holder.thumbnailImage)
         Log.d("RecipeListAdapter" , recipes[position].thumbnail.toString())
         holder.itemView.setOnClickListener{
                 onClickListener?.invoke(recipes[position])
