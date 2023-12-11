@@ -4,12 +4,17 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class RecipeModel(
+    val id: Long ,
     val title: String? ,
+    val description: String? ,
     val video: String? ,
     val thumbnail: String? ,
-    val instructions: Array<InstructionModel>
+    val instructions: Array<InstructionModel> ,
+    val sections: Array<SectionsModel>
 ):Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readString() , parcel.readString() , parcel.readString() , parcel.readArray(RecipeModel::class.java.classLoader) as Array<InstructionModel> ) {
+    constructor(parcel: Parcel) : this( parcel.readLong() , parcel.readString() , parcel.readString() , parcel.readString() , parcel.readString() , parcel.readArray(RecipeModel::class.java.classLoader) as Array<InstructionModel> ,
+        parcel.readArray(SectionsModel::class.java.classLoader) as Array<SectionsModel>
+    ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

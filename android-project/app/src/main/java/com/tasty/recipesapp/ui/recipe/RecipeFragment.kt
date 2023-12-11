@@ -11,9 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.connections.RecipeDatabase
 import com.tasty.recipesapp.databinding.FragmentRecipeBinding
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewModel.RecipeListViewModel
+import com.tasty.recipesapp.viewModel.RecipeListViewModelFactory
 
 
 class RecipeFragment : Fragment() {
@@ -38,14 +40,20 @@ class RecipeFragment : Fragment() {
         binding.recycleRecipes.layoutManager = LinearLayoutManager(requireContext())
         binding.recycleRecipes.adapter = myAdapter
 
-        val viewModel: RecipeListViewModel by viewModels()
+        val recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
+
+        val viewModel: RecipeListViewModel by viewModels{ RecipeListViewModelFactory(recipeDao) }
 
         val liveData = viewModel.liveData
         liveData.observe(viewLifecycleOwner) {
             myAdapter.recipes = it
             myAdapter.notifyDataSetChanged()
             it.forEach {
-                Log.d("RecipeFragment" , it.toString())
+                it.sections.map {
+                    it.components.map {
+                        Log.d("IngredientName" , it.ingredient.name)
+                    }
+                }
             }
         }
         viewModel.readAllRecipes(requireContext())

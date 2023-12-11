@@ -24,26 +24,10 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//        Log.d(TAG , "onCreate: MainActivity created.") ;
-//        val view = ActivityMainBinding.inflate(layoutInflater) ;
-//        setContentView(view.root) ;
-//        val name = intent.getStringExtra("name") ;
-//        view.textGreeting.text = "Hello $name" ;
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        replaceFragment(HomeFragment()) ;
 
-//        binding.bottomNavigation.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
-//            val menuItemId = item.itemId
-//            when(item.itemId) {
-//                R.id.home_fragment -> replaceFragment(HomeFragment())
-//                R.id.recipe_fragment -> replaceFragment(RecipeFragment())
-//                R.id.profile_fragment -> replaceFragment(ProfileFragment())
-//            }
-//            true
-//        })
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
         navController = navHostFragment.navController
@@ -61,19 +45,7 @@ class MainActivity : AppCompatActivity() {
             true
 
         }
-//        val recipes = RecipeRepository(this).readRecipes()
-//        recipes.forEach {
-//            Log.d(TAG , "recipe: $it")
-//        }
 
-        val viewModel: RecipeListViewModel by viewModels()
-        val liveData = viewModel.liveData
-        liveData.observe(this) {
-            it.forEach {
-                Log.d(TAG , it.toString() )
-            }
-        }
-        viewModel.readAllRecipes(this)
     }
     override fun onStart(){
         super.onStart() ;

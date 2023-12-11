@@ -55,4 +55,20 @@
     <string name="details">Details</string>
     <string name="recipe_details">Recipe details</string>
     <string name="recipeimage">RecipeImage</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="picture_url">Picture URL</string>
+    <string name="video_url">Video URL</string>
+    <string name="instructions"><b>Instructions</b></string>
+    <string name="_1_enter_instruction">#1 Enter Instruction</string>
+    <string name="_2_enter_instruction">#2 Enter Instruction</string>
+    <string name="_3_enter_instruction">#3 Enter instruction</string>
+    <string name="save">Save</string>
+    <string name="add_instruction">Add instruction</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="add_ingredient">Add ingredient</string>
+    <string name="delete">Delete</string>
+    <string name="instructions_">Instructions:</string>
+    <string name="post_a_recipe">Post a recipe!</string>
+    <string name="ingredients_"><b>Ingredients</b></string>
 </resources>

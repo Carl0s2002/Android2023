@@ -19,11 +19,6 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="home_to_profile_fragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="home_to_recipes">
                               <value>
                                 <LayoutPositions />
@@ -57,12 +52,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="profile_to_home">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="profile_to_recipe">
+                            <entry key="profile_to_recipe_details">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -95,17 +85,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="recipe_fragment_to_home">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="recipe_to_all_recipe_details">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="recipe_to_profile">
                               <value>
                                 <LayoutPositions />
                               </value>

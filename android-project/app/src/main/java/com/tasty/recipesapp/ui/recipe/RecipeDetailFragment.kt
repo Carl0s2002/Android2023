@@ -13,6 +13,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.FragmentRecipeDetailBinding
+import com.tasty.recipesapp.model.ComponentsModel
 import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewModel.RecipeListViewModel
@@ -42,6 +43,23 @@ class RecipeDetailFragment : Fragment() {
 
         }
 
+        var ingredientsArray = emptyArray<ComponentsModel>()
+
+        if ( recipe?.sections != null ) {
+            recipe.sections.forEach {
+                if ( it.components != null ){
+                    it.components.forEach {
+                        if ( it.ingredient != null ) {
+                            ingredientsArray =
+                                ingredientsArray.plus(ComponentsModel(it.ingredient, it.position))
+                        }
+                    }
+                }
+            }
+            val myAdapter = IngredientListAdapter(requireContext() , ingredientsArray)
+            binding.ingredientsList.adapter = myAdapter
+        }
+
 
         binding.exampleInput.text = recipe?.title
         Log.d("RecipeDetailFragment" , recipe?.video.toString())
@@ -50,9 +68,12 @@ class RecipeDetailFragment : Fragment() {
         player.prepare()
         player.play()
         binding.instructionVideo.player = player
-//        binding.instructionVideo.setVideoURI(Uri.parse(recipe?.video.toString()))
-//        binding.instructionVideo.start()
         return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        player.pause()
     }
 
     override fun onDestroyView() {
