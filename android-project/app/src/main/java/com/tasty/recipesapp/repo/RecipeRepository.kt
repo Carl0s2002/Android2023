@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.api.RecipeApiClient
 import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.data.dtos.RecipeDTO
 import com.tasty.recipesapp.data.dtos.RecipeResultDTO
@@ -18,6 +19,7 @@ import java.io.Writer
 
 class RecipeRepository(val context: Context , private val recipeDao:RecipeDao) {
 
+    private val recipeApiClient = RecipeApiClient()
     suspend fun insertRecipe(recipeEntity: RecipeEntity){
         recipeDao.insertRecipe(recipeEntity)
     }
@@ -55,6 +57,14 @@ class RecipeRepository(val context: Context , private val recipeDao:RecipeDao) {
             gson.fromJson(jsonObject.toString(), RecipeDTO::class.java)
         }
         return recipeList.toTypedArray()
+    }
+
+    suspend fun getRecipesFromApi(
+        from:String ,
+        size:String ,
+        tags:String?
+    ): Array<RecipeDTO>?{
+        return recipeApiClient.getRecipes(from , size , tags)
     }
 
 }
