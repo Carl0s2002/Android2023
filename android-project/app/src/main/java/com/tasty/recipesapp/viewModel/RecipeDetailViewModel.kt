@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tasty.recipesapp.dao.RecipeDao
-import com.tasty.recipesapp.data.dtos.RecipeDTO
 import com.tasty.recipesapp.model.ComponentsModel
 import com.tasty.recipesapp.model.IngredientModel
 import com.tasty.recipesapp.model.InstructionModel
@@ -15,20 +14,17 @@ import com.tasty.recipesapp.model.SectionsModel
 import com.tasty.recipesapp.repo.RecipeRepository
 import kotlinx.coroutines.launch
 
-class RecipeListViewModel(private val recipeDao: RecipeDao): ViewModel() {
+class RecipeDetailViewModel(private val recipeDao: RecipeDao):ViewModel() {
 
-    val liveData = MutableLiveData<Array<RecipeModel>>()
-    fun readAllRecipes(context: Context) {
+    val liveData = MutableLiveData<RecipeModel>()
+    fun getRecipeById(id:String , context: Context){
         viewModelScope.launch {
-            val list = RecipeRepository(context, recipeDao).getRecipesFromApi("0" , "20" )
-            list?.results?.forEach {
-                Log.d("RECIPE_API", it.toString())
-            }
-            val models = list?.results?.map {
-                val instructionModel = it.instructions.map {
+            val recipe = RecipeRepository( context , recipeDao).getRecipeByIdFromApi(id)
+            if (recipe != null) {
+                val instructionModel = recipe.instructions.map {
                     InstructionModel(it.display_text, it.position)
                 }
-                val sectionsModel = it.sections.map {
+                val sectionsModel = recipe.sections.map {
                     SectionsModel(
                         it.components.map {
                             val ingredientName = it.ingredient?.name ?: "Unknown Ingredient"
@@ -36,18 +32,10 @@ class RecipeListViewModel(private val recipeDao: RecipeDao): ViewModel() {
                         }.toTypedArray()
                     )
                 }.toTypedArray() ?: emptyArray()
-                RecipeModel(
-                    it.id,
-                    it.name,
-                    it.description,
-                    it.original_video_url,
-                    it.thumbnail_url,
-                    instructionModel.toTypedArray(),
-                    sectionsModel
-                )
-            }
-            if (models != null) {
-                liveData.value = models.toTypedArray()
+
+
+               liveData.value =  RecipeModel(recipe.id , recipe.name , recipe.description , recipe.original_video_url , recipe.thumbnail_url , instructionModel.toTypedArray() , sectionsModel)
+
             }
         }
     }

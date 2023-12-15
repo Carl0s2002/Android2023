@@ -12,10 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.connections.RecipeDatabase
 import com.tasty.recipesapp.databinding.FragmentRecipeDetailBinding
 import com.tasty.recipesapp.model.ComponentsModel
 import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
+import com.tasty.recipesapp.viewModel.RecipeDetailViewModel
+import com.tasty.recipesapp.viewModel.RecipeDetailViewModelFactory
 import com.tasty.recipesapp.viewModel.RecipeListViewModel
 
 class RecipeDetailFragment : Fragment() {
@@ -31,43 +34,51 @@ class RecipeDetailFragment : Fragment() {
         savedInstanceState: Bundle? ,
     ): View? {
         binding = FragmentRecipeDetailBinding.inflate(inflater , container , false)
-        val recipe = arguments?.getParcelable<RecipeModel>("recipe")
-        Log.d("RecipeDetailFragment" , recipe.toString())
 
-        if ( recipe?.instructions != null ) {
-            val instructions = recipe.instructions
-            val myAdapter = InstructionsListAdapter(requireContext() , instructions)
-            binding.instructionsList.adapter = myAdapter
+        val recipeId = arguments?.getString("recipeId")
 
-            myAdapter.instructions = instructions
+        val recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
 
-        }
+        val viewModel: RecipeDetailViewModel by viewModels{ RecipeDetailViewModelFactory(recipeDao) }
 
-        var ingredientsArray = emptyArray<ComponentsModel>()
+        val liveData = viewModel.liveData
 
-        if ( recipe?.sections != null ) {
-            recipe.sections.forEach {
-                if ( it.components != null ){
+        liveData.observe(viewLifecycleOwner) { recipe ->
+            binding.exampleInput.text = recipe?.title
+            player = ExoPlayer.Builder(requireContext()).build()
+            player.setMediaItem(MediaItem.Builder().setUri(Uri.parse(recipe?.video.toString())).build());
+            player.prepare()
+            player.play()
+            binding.instructionVideo.player = player
+            Log.d("RecipeDetailFragment" , recipe.toString())
+            if ( recipe?.instructions != null ) {
+                val instructions = recipe.instructions
+                val myAdapter = InstructionsListAdapter(requireContext() , instructions)
+                binding.instructionsList.adapter = myAdapter
+
+                myAdapter.instructions = instructions
+
+            }
+
+            var ingredientsArray = emptyArray<ComponentsModel>()
+
+            if ( recipe?.sections != null ) {
+                recipe.sections.forEach {
                     it.components.forEach {
-                        if ( it.ingredient != null ) {
-                            ingredientsArray =
-                                ingredientsArray.plus(ComponentsModel(it.ingredient, it.position))
-                        }
+                        ingredientsArray =
+                            ingredientsArray.plus(ComponentsModel(it.ingredient, it.position))
                     }
                 }
+                val myAdapter = IngredientListAdapter(requireContext() , ingredientsArray)
+                binding.ingredientsList.adapter = myAdapter
             }
-            val myAdapter = IngredientListAdapter(requireContext() , ingredientsArray)
-            binding.ingredientsList.adapter = myAdapter
+
         }
 
+        if (recipeId != null) {
+            viewModel.getRecipeById(recipeId , requireContext())
+        }
 
-        binding.exampleInput.text = recipe?.title
-        Log.d("RecipeDetailFragment" , recipe?.video.toString())
-        player = ExoPlayer.Builder(requireContext()).build()
-        player.setMediaItem(MediaItem.Builder().setUri(Uri.parse(recipe?.video.toString())).build());
-        player.prepare()
-        player.play()
-        binding.instructionVideo.player = player
         return binding.root
     }
 

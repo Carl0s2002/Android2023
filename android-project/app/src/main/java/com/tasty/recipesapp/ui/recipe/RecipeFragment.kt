@@ -59,7 +59,7 @@ class RecipeFragment : Fragment() {
         viewModel.readAllRecipes(requireContext())
 
         myAdapter.onClickListener = {
-            navController.navigate(R.id.recipe_to_all_recipe_details , bundleOf("recipe" to it))
+            navController.navigate(R.id.recipe_to_all_recipe_details , bundleOf("recipeId" to it.id.toString()))
         }
 
         return binding.root

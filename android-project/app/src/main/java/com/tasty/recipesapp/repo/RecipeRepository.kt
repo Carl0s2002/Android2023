@@ -62,9 +62,15 @@ class RecipeRepository(val context: Context , private val recipeDao:RecipeDao) {
     suspend fun getRecipesFromApi(
         from:String ,
         size:String ,
-        tags:String?
-    ): Array<RecipeDTO>?{
+        tags:String? = null
+    ): RecipeResultDTO?{
         return recipeApiClient.getRecipes(from , size , tags)
+    }
+
+    suspend fun getRecipeByIdFromApi(
+        id:String
+    ): RecipeDTO?{
+        return recipeApiClient.getRecipeById(id)
     }
 
 }

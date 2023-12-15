@@ -1,6 +1,8 @@
 package com.tasty.recipesapp.api
 
+import android.util.Log
 import com.tasty.recipesapp.data.dtos.RecipeDTO
+import com.tasty.recipesapp.data.dtos.RecipeResultDTO
 import com.tasty.recipesapp.service.RecipeService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,11 +27,23 @@ class RecipeApiClient {
     }
 
     suspend fun getRecipes(from: String, size: String, tags: String?):
-            Array<RecipeDTO>? {
+            RecipeResultDTO? {
         return withContext(Dispatchers.IO) {
             try {
                 recipeService.getRecipes(from, size, tags)
             } catch (e: Exception) {
+                null
+            }
+        }
+    }
+
+    suspend fun getRecipeById( id: String):
+            RecipeDTO? {
+        return withContext(Dispatchers.IO) {
+            try {
+                recipeService.getRecipeById( id)
+            } catch (e: Exception) {
+                Log.e("Error" , e.message , e )
                 null
             }
         }
