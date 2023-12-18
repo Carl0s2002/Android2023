@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.connections.RecipeDatabase
 import com.tasty.recipesapp.data.dtos.InstructionDTO
@@ -73,13 +75,20 @@ class NewRecipeFragment : Fragment() {
             sectionsArray.put(sectionObject)
             json.put("sections" , sectionsArray)
 
-            val recipeEntity = RecipeEntity( 0 , json.toString() )
 
             val recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
 
             val viewModel: ProfileViewModel by viewModels{ ProfileViewModelFactory(recipeDao)  }
 
-            viewModel.insertRecipe(requireContext() , recipeEntity)
+            val userId = AuthenticationManager(requireContext()).getUserId()
+
+            if (userId != null) {
+                val recipeEntity = RecipeEntity( 0 , json.toString()  ,userId)
+                viewModel.insertRecipe(requireContext(), recipeEntity)
+            }
+            else{
+                Toast.makeText(requireContext() , "User not logged in" , Toast.LENGTH_SHORT).show()
+            }
 
             findNavController().navigate(R.id.profile_fragment)
 

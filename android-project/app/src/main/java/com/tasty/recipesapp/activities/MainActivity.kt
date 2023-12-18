@@ -2,6 +2,7 @@ package com.tasty.recipesapp.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -44,6 +45,15 @@ class MainActivity : AppCompatActivity() {
             }
             true
 
+        }
+
+        navController.addOnDestinationChangedListener{ _ , destination , _ ->
+            if ( destination.id == R.id.fragment_login || destination.id == R.id.register_fragment) {
+                bottomNavigationView.visibility = View.GONE
+            }
+            else {
+                bottomNavigationView.visibility = View.VISIBLE
+            }
         }
 
     }

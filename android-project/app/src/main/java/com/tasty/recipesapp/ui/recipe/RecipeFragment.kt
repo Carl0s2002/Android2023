@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -61,6 +62,41 @@ class RecipeFragment : Fragment() {
         myAdapter.onClickListener = {
             navController.navigate(R.id.recipe_to_all_recipe_details , bundleOf("recipeId" to it.id.toString()))
         }
+
+        binding.SortButton.setOnClickListener {
+            val isPressed = binding.SortButton.isChecked
+            if (isPressed) {
+                val sortedRecipes = liveData.value?.sortedBy { it.title }?.toTypedArray()
+                if ( sortedRecipes != null) {
+                    myAdapter.recipes = sortedRecipes
+                    myAdapter.notifyDataSetChanged()
+                }
+            }
+            else{
+                myAdapter.recipes = liveData.value!!
+                myAdapter.notifyDataSetChanged()
+            }
+        }
+
+        binding.Search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val filteredRecipes = liveData.value?.filter {
+                    it.title?.contains(newText.orEmpty(), ignoreCase = true) ?: false
+                }?.toTypedArray()
+
+                // Update the adapter with the filtered recipes
+                if (filteredRecipes != null) {
+                    myAdapter.recipes = filteredRecipes
+                    myAdapter.notifyDataSetChanged()
+                }
+
+                return true
+            }
+        })
 
         return binding.root
     }

@@ -10,7 +10,7 @@ import com.tasty.recipesapp.entities.RecipeEntity
 interface RecipeDao {
 
     @Insert
-    suspend fun insertRecipe(recipeEntity: RecipeEntity)
+    suspend fun insertRecipe(recipeEntity: RecipeEntity )
 
     @Query("SELECT * FROM MyOwnRecipes WHERE id = :id")
     suspend fun getRecipeById(id: Long): RecipeEntity?

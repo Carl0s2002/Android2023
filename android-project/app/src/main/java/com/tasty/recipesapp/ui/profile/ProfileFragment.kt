@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.connections.RecipeDatabase
 import com.tasty.recipesapp.databinding.FragmentProfileBinding
@@ -58,7 +59,7 @@ class ProfileFragment : Fragment() {
         viewModel.getMyRecipes(requireContext())
 
         myAdapter.onClickListener = {
-            navController.navigate(R.id.profile_to_recipe_details , bundleOf("recipe" to it))
+            navController.navigate(R.id.profile_to_recipe_details , bundleOf("ownRecipeId" to it.id.toString()))
         }
 
         myAdapter.onClickListenerDelete = {
@@ -97,8 +98,11 @@ class ProfileFragment : Fragment() {
             sectionObject.put("components" , componentsArray)
             sectionsArray.put(sectionObject)
             json.put("sections" , sectionsArray)
-            val recipeEntity = RecipeEntity(it.id , json.toString())
-            viewModel.deleteRecipe(requireContext() , recipeEntity)
+            val userId = AuthenticationManager(requireContext()).getUserId()
+            if (userId != null ) {
+                val recipeEntity = RecipeEntity(it.id, json.toString(), userId)
+                viewModel.deleteRecipe(requireContext(), recipeEntity)
+            }
             viewModel.getMyRecipes(requireContext())
         }
 

@@ -40,4 +40,27 @@ class RecipeDetailViewModel(private val recipeDao: RecipeDao):ViewModel() {
         }
     }
 
+    fun getOwnRecipeById(id:Long, context: Context){
+        viewModelScope.launch {
+            val recipe = RecipeRepository( context , recipeDao).getRecipeByIdFromRoom(id)
+            if (recipe != null) {
+                val instructionModel = recipe.instructions.map {
+                    InstructionModel(it.display_text, it.position)
+                }
+                val sectionsModel = recipe.sections.map {
+                    SectionsModel(
+                        it.components.map {
+                            val ingredientName = it.ingredient?.name ?: "Unknown Ingredient"
+                            ComponentsModel(IngredientModel(ingredientName), it.position)
+                        }.toTypedArray()
+                    )
+                }.toTypedArray() ?: emptyArray()
+
+
+                liveData.value =  RecipeModel(recipe.id , recipe.name , recipe.description , recipe.original_video_url , recipe.thumbnail_url , instructionModel.toTypedArray() , sectionsModel)
+
+            }
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.tasty.recipesapp.repo
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
+import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.api.RecipeApiClient
 import com.tasty.recipesapp.dao.RecipeDao
@@ -20,7 +21,7 @@ import java.io.Writer
 class RecipeRepository(val context: Context , private val recipeDao:RecipeDao) {
 
     private val recipeApiClient = RecipeApiClient()
-    suspend fun insertRecipe(recipeEntity: RecipeEntity){
+    suspend fun insertRecipe(recipeEntity: RecipeEntity ){
         recipeDao.insertRecipe(recipeEntity)
     }
 
@@ -49,14 +50,31 @@ class RecipeRepository(val context: Context , private val recipeDao:RecipeDao) {
     }
 
     suspend fun readRecipesFromRoom(): Array<RecipeDTO>{
-        val recipeList = recipeDao.getAllRecipes().map {
+        val authenticationManager = AuthenticationManager(context)
+        val userId = authenticationManager.getUserId()
+        val recipeList =  recipeDao.getAllRecipes().filter {
+            it.userId == userId
+        }
+        val ownRecipeList = recipeList.map {
             val jsonObject = JSONObject(it.json)
             Log.d("ReadRecipesFromRoom" , it.json)
             jsonObject.apply { put("id", it.id) }
             val gson = Gson()
             gson.fromJson(jsonObject.toString(), RecipeDTO::class.java)
         }
-        return recipeList.toTypedArray()
+        return ownRecipeList.toTypedArray()
+    }
+
+    suspend fun getRecipeByIdFromRoom(id:Long):RecipeDTO?{
+        val recipe = recipeDao.getRecipeById(id)
+        if (recipe == null){
+            return null
+        }
+        val jsonObject = JSONObject(recipe.json)
+        jsonObject.apply { put("id" , recipe.id) }
+        val gson = Gson()
+        val recipeDto = gson.fromJson(jsonObject.toString() , RecipeDTO::class.java)
+        return recipeDto
     }
 
     suspend fun getRecipesFromApi(

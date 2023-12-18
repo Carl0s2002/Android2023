@@ -78,6 +78,12 @@ class RecipeDetailFragment : Fragment() {
         if (recipeId != null) {
             viewModel.getRecipeById(recipeId , requireContext())
         }
+        else {
+            val ownRecipeId = arguments?.getString("ownRecipeId")
+            if ( ownRecipeId != null ){
+                viewModel.getOwnRecipeById(ownRecipeId.toLong() , requireContext())
+            }
+        }
 
         return binding.root
     }

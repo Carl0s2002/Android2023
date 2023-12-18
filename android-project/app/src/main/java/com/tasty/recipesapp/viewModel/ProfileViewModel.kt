@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.entities.RecipeEntity
 import com.tasty.recipesapp.model.ComponentsModel
@@ -18,9 +19,9 @@ class ProfileViewModel(private val recipeDao: RecipeDao): ViewModel() {
 
     val liveData = MutableLiveData<Array<RecipeModel>>()
 
-    fun insertRecipe( context: Context , recipeEntity: RecipeEntity){
+    fun insertRecipe( context: Context , recipeEntity: RecipeEntity ){
         viewModelScope.launch {
-            RecipeRepository(context , recipeDao).insertRecipe(recipeEntity)
+            RecipeRepository(context , recipeDao).insertRecipe(recipeEntity )
         }
     }
 

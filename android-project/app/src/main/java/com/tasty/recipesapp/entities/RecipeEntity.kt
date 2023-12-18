@@ -9,5 +9,6 @@ data class RecipeEntity(
     @PrimaryKey(autoGenerate = true)
     val id:Long = 0,
     @SerializedName("json_data")
-    val json: String
+    val json: String ,
+    val userId:String
 )
