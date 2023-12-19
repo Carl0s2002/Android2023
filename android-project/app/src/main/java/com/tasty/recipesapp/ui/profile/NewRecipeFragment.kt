@@ -8,16 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.connections.RecipeDatabase
-import com.tasty.recipesapp.data.dtos.InstructionDTO
 import com.tasty.recipesapp.databinding.FragmentNewRecipeBinding
 import com.tasty.recipesapp.entities.RecipeEntity
-import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewModel.ProfileViewModel
 import com.tasty.recipesapp.viewModel.ProfileViewModelFactory
 import org.json.JSONArray

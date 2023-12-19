@@ -1,7 +1,6 @@
 package com.tasty.recipesapp.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.AuthenticationManager
-import com.tasty.recipesapp.R
 import com.tasty.recipesapp.connections.RecipeDatabase
 import com.tasty.recipesapp.databinding.FragmentFavoriteRecipesBinding
 import com.tasty.recipesapp.entities.RecipeEntity
-import com.tasty.recipesapp.model.RecipeModel
-import com.tasty.recipesapp.ui.profile.IngredientsInputListAdapter
-import com.tasty.recipesapp.ui.profile.InstructionsInputListAdapter
 import com.tasty.recipesapp.ui.recipe.MyRecipeListAdapter
 import com.tasty.recipesapp.utils.JSONConverter
 import com.tasty.recipesapp.viewModel.FavoriteRecipesFragmentViewModel
@@ -24,8 +19,6 @@ import com.tasty.recipesapp.viewModel.ProfileViewModel
 import com.tasty.recipesapp.viewModel.ProfileViewModelFactory
 import com.tasty.recipesapp.viewModel.RecipeDetailViewModel
 import com.tasty.recipesapp.viewModel.RecipeDetailViewModelFactory
-import org.json.JSONArray
-import org.json.JSONObject
 
 
 class FavoriteRecipesFragment : Fragment() {
@@ -69,48 +62,10 @@ class FavoriteRecipesFragment : Fragment() {
             val recipeLiveData = recipeDetailViewModel.liveData
             recipeLiveData.observe(viewLifecycleOwner) { recipe ->
 
-
-                Log.d("RecipeInFavorites", recipe.toString())
-
-                val json = JSONObject()
-                json.put("name", recipe.title)
-                json.put("original_video_url", recipe.video)
-                json.put("thumbnail_url", recipe.thumbnail)
-                json.put("description", recipe.description)
-
-                val instructionsArray = JSONArray()
-                recipe.instructions.forEach {
-                        instruction ->
-                    val instructionJson = JSONObject()
-                    instructionJson.put("position" , instruction.position)
-                    instructionJson.put("display_text" , instruction.display_text)
-                    instructionsArray.put(instructionJson)
-                }
-                json.put("instructions", instructionsArray)
-
-                val sectionsArray = JSONArray()
-                val componentsArray = JSONArray()
-
-                recipe.sections.forEach {
-                    it.components.forEach { component ->
-                        val componentObject = JSONObject()
-                        val ingredientJson = JSONObject()
-                        componentObject.put("position", component.position)
-                        ingredientJson.put("name", component.ingredient.name)
-                        componentObject.put("ingredient", ingredientJson)
-                        componentsArray.put(componentObject)
-                        Log.d("ingredientDetails", componentsArray.toString())
-                    }
-                }
-                val sectionObject = JSONObject()
-                sectionObject.put("components", componentsArray)
-                sectionsArray.put(sectionObject)
-                json.put("sections", sectionsArray)
-
+                val json = JSONConverter().convertToJson(recipe)
 
                 val userId = AuthenticationManager(requireContext()).getUserId()
                 if (userId != null) {
-
                     profileViewModel.insertRecipe(
                         requireContext(),
                         RecipeEntity(recipeId.toLong(), json.toString(), userId, false)
@@ -125,7 +80,7 @@ class FavoriteRecipesFragment : Fragment() {
 
             val userId = AuthenticationManager(requireContext()).getUserId()
             if (userId != null ) {
-                val json = JSONConverter().convertToJsonForDeletion(it)
+                val json = JSONConverter().convertToJson(it)
                 val recipeEntity = RecipeEntity(it.id, json.toString(), userId , false)
                 profileViewModel.deleteRecipe(requireContext(), recipeEntity)
             }

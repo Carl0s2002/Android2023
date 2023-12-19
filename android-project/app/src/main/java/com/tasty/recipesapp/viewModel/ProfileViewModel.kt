@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.entities.RecipeEntity
 import com.tasty.recipesapp.model.ComponentsModel

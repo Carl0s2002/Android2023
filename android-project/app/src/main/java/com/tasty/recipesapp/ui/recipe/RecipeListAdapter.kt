@@ -1,6 +1,5 @@
 package com.tasty.recipesapp.ui.recipe
 
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

@@ -1,7 +1,6 @@
 package com.tasty.recipesapp.ui.profile
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,14 +16,9 @@ import com.tasty.recipesapp.databinding.FragmentProfileBinding
 import com.tasty.recipesapp.entities.RecipeEntity
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.ui.recipe.MyRecipeListAdapter
-import com.tasty.recipesapp.ui.recipe.RecipeListAdapter
 import com.tasty.recipesapp.utils.JSONConverter
 import com.tasty.recipesapp.viewModel.ProfileViewModel
 import com.tasty.recipesapp.viewModel.ProfileViewModelFactory
-import com.tasty.recipesapp.viewModel.RecipeListViewModel
-import com.tasty.recipesapp.viewModel.RecipeListViewModelFactory
-import org.json.JSONArray
-import org.json.JSONObject
 
 class ProfileFragment : Fragment() {
 
@@ -64,7 +58,7 @@ class ProfileFragment : Fragment() {
         }
 
         myAdapter.onClickListenerDelete = {
-            val json = JSONConverter().convertToJsonForDeletion(it)
+            val json = JSONConverter().convertToJson(it)
             val userId = AuthenticationManager(requireContext()).getUserId()
             if (userId != null ) {
                 val recipeEntity = RecipeEntity(it.id, json.toString(), userId , true)

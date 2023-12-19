@@ -3,18 +3,13 @@ package com.tasty.recipesapp.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.ActivityMainBinding
-import com.tasty.recipesapp.viewModel.RecipeListViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,12 +75,5 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy MainActivity destroyed");
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(binding.container.id, fragment)
-        transaction.commit()
     }
 }

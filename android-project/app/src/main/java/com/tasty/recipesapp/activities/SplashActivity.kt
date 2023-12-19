@@ -20,15 +20,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        binding = ActivitySplashBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//        Log.d(TAG , "onCreate: SplashActivity")
-//        val textInput = binding.textInput
-//        binding.buttonNavigate.setOnClickListener {
-//            val intent = Intent(this@SplashActivity,MainActivity::class.java)
-//            intent.putExtra("name" , textInput.text.toString())
-//            startActivity(intent)
-//        }
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root) ;
 

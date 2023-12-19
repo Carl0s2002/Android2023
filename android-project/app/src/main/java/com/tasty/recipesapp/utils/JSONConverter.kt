@@ -7,7 +7,7 @@ import org.json.JSONObject
 
 class JSONConverter {
 
-    fun convertToJsonForDeletion(recipe: RecipeModel): JSONObject {
+    fun convertToJson(recipe: RecipeModel): JSONObject {
         val json = JSONObject()
         json.put("id" , recipe.id)
         json.put("name" , recipe.title.toString())

@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.tasty.recipesapp.AuthenticationManager
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.databinding.FragmentHomeBinding
 

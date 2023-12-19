@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tasty.recipesapp.dao.RecipeDao
-import com.tasty.recipesapp.data.dtos.RecipeDTO
 import com.tasty.recipesapp.model.ComponentsModel
 import com.tasty.recipesapp.model.IngredientModel
 import com.tasty.recipesapp.model.InstructionModel

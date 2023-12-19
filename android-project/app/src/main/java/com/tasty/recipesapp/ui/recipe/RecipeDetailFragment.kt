@@ -7,19 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
-import com.tasty.recipesapp.R
 import com.tasty.recipesapp.connections.RecipeDatabase
 import com.tasty.recipesapp.databinding.FragmentRecipeDetailBinding
 import com.tasty.recipesapp.model.ComponentsModel
-import com.tasty.recipesapp.model.InstructionModel
-import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewModel.RecipeDetailViewModel
 import com.tasty.recipesapp.viewModel.RecipeDetailViewModelFactory
-import com.tasty.recipesapp.viewModel.RecipeListViewModel
 
 class RecipeDetailFragment : Fragment() {
 
