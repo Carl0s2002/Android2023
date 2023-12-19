@@ -33,7 +33,8 @@ class ProfileViewModel(private val recipeDao: RecipeDao): ViewModel() {
     fun getMyRecipes(context: Context){
         viewModelScope.launch {
             val list = RecipeRepository(context, recipeDao).readRecipesFromRoom()
-            val models = list.map {
+            val filteredList = list.filter { it.isUserCreated }
+            val models = filteredList.map {
                 val instructionModel = it.instructions.map {
                     InstructionModel(it.display_text , it.position)
                 }

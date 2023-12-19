@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="fragment_favorites">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_login">
                     <value>
                       <LayoutPositions>
@@ -45,6 +57,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="home_to_login">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="home_to_recipes">
                               <value>
                                 <LayoutPositions />
@@ -129,6 +146,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="recipe_to_all_recipe_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="recipe_to_favorites">
                               <value>
                                 <LayoutPositions />
                               </value>

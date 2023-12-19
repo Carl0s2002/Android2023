@@ -39,10 +39,8 @@
             >
                 <action android:id="@+id/recipe_to_all_recipe_details"
                         app:destination="@id/recipe_detail_fragment" />
-<!--                <action android:id="@+id/recipe_fragment_to_home"-->
-<!--                        app:destination="@id/home_fragment" />-->
-<!--                <action android:id="@+id/recipe_to_profile"-->
-<!--                    app:destination="@id/profile_fragment" />-->
+                <action android:id="@+id/recipe_to_favorites"
+                        app:destination="@id/fragment_favorites"/>
         </fragment>
 
         <fragment
@@ -51,10 +49,6 @@
             android:label="Recipe Detail Fragment"
             tools:layout="@layout/fragment_recipe_detail"
             >
-<!--                <action-->
-<!--                    android:id="@+id/recipe_detail_fragment_to_recipe"-->
-<!--                    app:destination="@id/recipe_fragment"-->
-<!--                        />-->
         </fragment>
 
         <fragment
@@ -63,10 +57,6 @@
             android:label="Profile Fragment"
             tools:layout="@layout/fragment_profile"
             >
-<!--                <action android:id="@+id/profile_to_home"-->
-<!--                        app:destination="@id/home_fragment" />-->
-<!--                <action android:id="@+id/profile_to_recipe"-->
-<!--                    app:destination="@id/recipe_fragment" />-->
                 <action
                     android:id="@+id/profile_to_recipe_details"
                     app:destination="@id/recipe_detail_fragment" />
@@ -74,6 +64,8 @@
                     android:id="@+id/profile_to_new_recipe_fragment"
                     app:destination="@id/new_recipe_fragment"
                     />
+                <action android:id="@+id/profile_to_favorites"
+                        app:destination="@id/fragment_favorites"/>
         </fragment>
         <fragment
                 android:id="@+id/new_recipe_fragment"
@@ -107,5 +99,12 @@
                     app:destination="@id/register_fragment"
                         />
         </fragment>
+
+        <fragment
+                android:id="@+id/fragment_favorites"
+                android:name="com.tasty.recipesapp.ui.favorites.FavoriteRecipesFragment"
+                android:label="Favorites Fragment"
+                tools:layout="@layout/fragment_favorite_recipes"
+                />
 
 </navigation>

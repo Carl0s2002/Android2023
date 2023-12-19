@@ -18,6 +18,7 @@ import com.tasty.recipesapp.entities.RecipeEntity
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.ui.recipe.MyRecipeListAdapter
 import com.tasty.recipesapp.ui.recipe.RecipeListAdapter
+import com.tasty.recipesapp.utils.JSONConverter
 import com.tasty.recipesapp.viewModel.ProfileViewModel
 import com.tasty.recipesapp.viewModel.ProfileViewModelFactory
 import com.tasty.recipesapp.viewModel.RecipeListViewModel
@@ -63,44 +64,10 @@ class ProfileFragment : Fragment() {
         }
 
         myAdapter.onClickListenerDelete = {
-            val json = JSONObject()
-            json.put("id" , it.id)
-            json.put("name" , it.title.toString())
-            json.put("original_video_url" , it.video.toString())
-            json.put("thumbnail_url" , it.thumbnail.toString())
-            json.put("description" , it.description.toString())
-
-            val instructionsArray = JSONArray()
-            it.instructions.forEach {
-                 instruction ->
-                    val instructionJson = JSONObject()
-                    instructionJson.put("position" , instruction.position)
-                    instructionJson.put("display_text" , instruction.display_text)
-                    instructionsArray.put(instructionJson)
-                }
-            json.put("instructions" , instructionsArray)
-
-            val sectionsArray = JSONArray()
-            val componentsArray = JSONArray()
-
-            it.sections.forEach {
-                it.components.forEach { component ->
-                    val componentObject = JSONObject()
-                    val ingredientJson = JSONObject()
-                    componentObject.put("position" , component.position)
-                    ingredientJson.put("name" , component.ingredient.name)
-                    componentObject.put("ingredient" , ingredientJson)
-                    componentsArray.put(componentObject)
-                    Log.d("ingredientDetails" , componentsArray.toString())
-                }
-            }
-            val sectionObject = JSONObject()
-            sectionObject.put("components" , componentsArray)
-            sectionsArray.put(sectionObject)
-            json.put("sections" , sectionsArray)
+            val json = JSONConverter().convertToJsonForDeletion(it)
             val userId = AuthenticationManager(requireContext()).getUserId()
             if (userId != null ) {
-                val recipeEntity = RecipeEntity(it.id, json.toString(), userId)
+                val recipeEntity = RecipeEntity(it.id, json.toString(), userId , true)
                 viewModel.deleteRecipe(requireContext(), recipeEntity)
             }
             viewModel.getMyRecipes(requireContext())
@@ -110,6 +77,11 @@ class ProfileFragment : Fragment() {
             navController.navigate(R.id.profile_to_new_recipe_fragment)
         }
 
+        binding.FavoritesButton.setOnClickListener {
+            navController.navigate(R.id.profile_to_favorites )
+        }
+
         return binding.root
     }
+
 }

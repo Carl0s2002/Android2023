@@ -63,6 +63,10 @@ class RecipeFragment : Fragment() {
             navController.navigate(R.id.recipe_to_all_recipe_details , bundleOf("recipeId" to it.id.toString()))
         }
 
+        myAdapter.favoritesOnClickListener = {
+            navController.navigate(R.id.recipe_to_favorites , bundleOf("recipeId" to it.id.toString()))
+        }
+
         binding.SortButton.setOnClickListener {
             val isPressed = binding.SortButton.isChecked
             if (isPressed) {

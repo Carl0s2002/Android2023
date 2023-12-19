@@ -37,44 +37,8 @@ class NewRecipeFragment : Fragment() {
         binding = FragmentNewRecipeBinding.inflate(inflater , container , false)
 
         binding.SaveButton.setOnClickListener {
-            val json = JSONObject()
-            json.put("name" , binding.titleInput.text.toString())
-            json.put("original_video_url" , binding.videoUrlInput.text.toString())
-            json.put("thumbnail_url" , binding.pictureUrlInput.text.toString())
-            json.put("description" , binding.descriptionInput.text.toString())
 
-            val instructionsArray = JSONArray()
-            var counter = 1
-            binding.instructionsRecyclerView.adapter?.let {
-                (it as InstructionsInputListAdapter).instructions.forEach { instruction ->
-                    val instructionJson = JSONObject()
-                    instructionJson.put("position" , counter++)
-                    instructionJson.put("display_text" , instruction)
-                    instructionsArray.put(instructionJson)
-                }
-            }
-            json.put("instructions" , instructionsArray)
-
-            val sectionsArray = JSONArray()
-            val componentsArray = JSONArray()
-
-            counter = 1
-            binding.ingredientsRecyclerView.adapter?.let {
-                (it as IngredientsInputListAdapter).ingredients.forEach { ingredient ->
-                    val componentObject = JSONObject()
-                    val ingredientJson = JSONObject()
-                    componentObject.put("position" , counter++)
-                    ingredientJson.put("name" , ingredient)
-                    componentObject.put("ingredient" , ingredientJson)
-                    componentsArray.put(componentObject)
-                    Log.d("ingredientDetails" , componentsArray.toString())
-                }
-            }
-            val sectionObject = JSONObject()
-            sectionObject.put("components" , componentsArray)
-            sectionsArray.put(sectionObject)
-            json.put("sections" , sectionsArray)
-
+            val json = convertToJsonForInsert()
 
             val recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
 
@@ -83,7 +47,7 @@ class NewRecipeFragment : Fragment() {
             val userId = AuthenticationManager(requireContext()).getUserId()
 
             if (userId != null) {
-                val recipeEntity = RecipeEntity( 0 , json.toString()  ,userId)
+                val recipeEntity = RecipeEntity( 0 , json.toString()  ,userId , true)
                 viewModel.insertRecipe(requireContext(), recipeEntity)
             }
             else{
@@ -119,5 +83,45 @@ class NewRecipeFragment : Fragment() {
         return binding.root
     }
 
+    private fun convertToJsonForInsert():JSONObject{
+        val json = JSONObject()
+        json.put("name" , binding.titleInput.text.toString())
+        json.put("original_video_url" , binding.videoUrlInput.text.toString())
+        json.put("thumbnail_url" , binding.pictureUrlInput.text.toString())
+        json.put("description" , binding.descriptionInput.text.toString())
+
+        val instructionsArray = JSONArray()
+        var counter = 1
+        binding.instructionsRecyclerView.adapter?.let {
+            (it as InstructionsInputListAdapter).instructions.forEach { instruction ->
+                val instructionJson = JSONObject()
+                instructionJson.put("position" , counter++)
+                instructionJson.put("display_text" , instruction)
+                instructionsArray.put(instructionJson)
+            }
+        }
+        json.put("instructions" , instructionsArray)
+
+        val sectionsArray = JSONArray()
+        val componentsArray = JSONArray()
+
+        counter = 1
+        binding.ingredientsRecyclerView.adapter?.let {
+            (it as IngredientsInputListAdapter).ingredients.forEach { ingredient ->
+                val componentObject = JSONObject()
+                val ingredientJson = JSONObject()
+                componentObject.put("position" , counter++)
+                ingredientJson.put("name" , ingredient)
+                componentObject.put("ingredient" , ingredientJson)
+                componentsArray.put(componentObject)
+                Log.d("ingredientDetails" , componentsArray.toString())
+            }
+        }
+        val sectionObject = JSONObject()
+        sectionObject.put("components" , componentsArray)
+        sectionsArray.put(sectionObject)
+        json.put("sections" , sectionsArray)
+        return json
+    }
 
 }

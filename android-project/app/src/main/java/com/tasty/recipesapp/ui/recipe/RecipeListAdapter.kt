@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,14 +16,17 @@ import com.tasty.recipesapp.model.RecipeModel
 class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     var onClickListener: ((RecipeModel) -> Unit)? = null
+    var favoritesOnClickListener: ((RecipeModel) -> Unit)? = null
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val title: TextView
         val thumbnailImage: ImageView
         val description:TextView
+        val addToFavorites:Button
         init {
             title = itemView.findViewById(R.id.title)
             thumbnailImage = itemView.findViewById(R.id.thumbnailImage)
             description = itemView.findViewById(R.id.description)
+            addToFavorites = itemView.findViewById(R.id.FavoritesButton)
         }
     }
 
@@ -41,6 +45,10 @@ class RecipeListAdapter(var recipes: Array<RecipeModel>):RecyclerView.Adapter<Re
         Log.d("RecipeListAdapter" , recipes[position].thumbnail.toString())
         holder.itemView.setOnClickListener{
                 onClickListener?.invoke(recipes[position])
+        }
+
+        holder.addToFavorites.setOnClickListener {
+            favoritesOnClickListener?.invoke(recipes[position])
         }
 
     }

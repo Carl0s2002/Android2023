@@ -22,5 +22,13 @@
         android:layout_width="wrap_content"
         android:layout_marginBottom="20dp"
         />
+    <Button
+        android:id="@+id/FavoritesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_favorites"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/creamColor"
+        />
 
 </LinearLayout>

@@ -7,5 +7,6 @@ data class RecipeDTO(
     val original_video_url: String? ,
     val thumbnail_url: String? ,
     val instructions: Array<InstructionDTO> ,
-    val sections: Array<SectionsDTO>
+    val sections: Array<SectionsDTO> ,
+    val isUserCreated: Boolean
 )

@@ -59,6 +59,7 @@ class RecipeRepository(val context: Context , private val recipeDao:RecipeDao) {
             val jsonObject = JSONObject(it.json)
             Log.d("ReadRecipesFromRoom" , it.json)
             jsonObject.apply { put("id", it.id) }
+            jsonObject.apply { put("isUserCreated" , it.isUserCreated) }
             val gson = Gson()
             gson.fromJson(jsonObject.toString(), RecipeDTO::class.java)
         }

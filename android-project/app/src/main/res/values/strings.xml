@@ -84,4 +84,8 @@
     <string name="register_page">Register Page</string>
     <string name="logout">Logout</string>
     <string name="back">Back</string>
+    <string name="favorite_recipes">Favorite Recipes</string>
+    <string name="add_to_wishlist">Add to wishlist</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="favorites">Favorites</string>
 </resources>

@@ -10,5 +10,6 @@ data class RecipeEntity(
     val id:Long = 0,
     @SerializedName("json_data")
     val json: String ,
-    val userId:String
+    val userId:String ,
+    val isUserCreated:Boolean
 )
